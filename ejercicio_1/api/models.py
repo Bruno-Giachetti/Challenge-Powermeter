@@ -1,4 +1,5 @@
 from django.db import models
+from dataclasses import dataclass
 
 class Medidor(models.Model):
 
@@ -9,16 +10,20 @@ class Medidor(models.Model):
         max_length=64
     )
 
-
-    
     def __str__(self):
         return self.nombre
 
 class Medicion(models.Model):
     fechaYHora = models.DateTimeField()
     consumo = models.FloatField()
-    medidor = models.ForeignKey(to=Medidor,on_delete=models.CASCADE)
+    medidor = models.ForeignKey(to=Medidor, on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return "Creado"
+        return self.consumo
+
+class MedicionTotal:
+    consumoTotal : models.FloatField()
+    class Meta:
+        abstract = True  # no table for this class
+        managed = False  # no database management
