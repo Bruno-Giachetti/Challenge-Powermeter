@@ -6,6 +6,7 @@ class MedidorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Medidor
         fields = ('llaveIdentificadora', 'nombre')
+        lookup_field = 'llaveIdentificadora'
 
 class MedicionSerializer(serializers.HyperlinkedModelSerializer):
     #medidores = serializers.SlugRelatedField(many=True, read_only=True,slug_field="nombre")

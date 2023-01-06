@@ -5,7 +5,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'medidores', views.MedidorViewSet)
 router.register(r'mediciones', views.MedicionViewSet)
-router.register(r'minimoConsumo/', views.minimoConsumoViewSet)
+router.register(r'minimoConsumo/(?P<llave>.*)',  views.minimoConsumoViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

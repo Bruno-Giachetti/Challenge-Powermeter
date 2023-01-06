@@ -1,16 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import generics
 
 from .serializers import MedidorSerializer, MedicionSerializer
 from .models import Medidor, Medicion
 
-@api_view()
-@permission_classes(AllowAny)
 
-def previa(request):
-    print(request.query_params)
 
 class MedidorViewSet(viewsets.ModelViewSet):
     queryset = Medidor.objects.all()
@@ -21,5 +18,16 @@ class MedicionViewSet(viewsets.ModelViewSet):
     serializer_class = MedicionSerializer
 
 class minimoConsumoViewSet(viewsets.ModelViewSet):
-    queryset = Medicion.objects.all()
-    serializer_class = MedicionSerializer
+    queryset = Medidor.objects.all()
+    serializer_class = MedidorSerializer
+    lookup_field = 'pk'
+
+    def get_queryset(self, llave=None):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        llave = self.kwargs.get('llave', None)
+        queryset = Medidor.objects.filter(llaveIdentificadora = llave)
+        return queryset
+    
