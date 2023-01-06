@@ -14,6 +14,7 @@ def borrarRepetidos(lista):
     '''
     return sorted(list(set(map(str,lista))))
 
+#Prueba
 print(borrarRepetidos(repetidos))
 
 #Parte 2
@@ -22,10 +23,12 @@ def valoresComunes(lista1, lista2):
     #Esta funcion se fija los valores repetidos en tipo y valor para que el "5" por ejemplo salga como un valor comun
     return list(filter(lambda x: x in borrarRepetidos(lista1), borrarRepetidos(lista2)))
 
+#Prueba
 print(valoresComunes(r,repetidos))
 
 #Parte 3
 def transformarADiccionario(entrada):
     return json.loads(entrada)
 
+#Prueba
 print(transformarADiccionario(d_str))
