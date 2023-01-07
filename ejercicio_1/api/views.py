@@ -6,8 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import generics
 
-from .serializers import MedidorSerializer, MedicionSerializer, MedicionTotalSerializer, MedicionPromedioSerializer
-from .models import Medidor, Medicion
+from .serializers import MedidorSerializer, MedicionSerializer,  MedicionTotalSerializer, MedicionPromedioSerializer
+from .models import Medidor, Medicion, Unidades
 
 
 
@@ -60,6 +60,7 @@ class consumoTotalViewSet(viewsets.ModelViewSet):
                 'consumoTotal' : resultados.get('consumoTotal'),
                 'nombreMedidor' : medidor.nombre,
                 'llaveIdentificadora' : medidor.llaveIdentificadora,
+                'unidad' : Unidades.KWH.name.lower(),
         }]
     
 class consumoPromedioViewSet(viewsets.ModelViewSet):
@@ -75,6 +76,7 @@ class consumoPromedioViewSet(viewsets.ModelViewSet):
                 'consumoPromedio' : resultados.get('consumoPromedio'),
                 'nombreMedidor' : medidor.nombre,
                 'llaveIdentificadora' : medidor.llaveIdentificadora,
+                'unidad' : Unidades.KWH.name.lower(),
         }]
     
     

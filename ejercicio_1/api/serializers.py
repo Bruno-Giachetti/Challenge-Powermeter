@@ -1,49 +1,50 @@
 from rest_framework import serializers
 from .models import Medidor, Medicion, Unidades
 
-'''
-class MedidorSerializer(serializers.HyperlinkedModelSerializer):
-    
-    consumoTotal = serializers.HyperlinkedRelatedField(
-        view_name='consumoTotalViewSet',
-        lookup_field='consumo__sum',
-        many=False,
-        read_only=True,
-        required = False,
-    )
-    
-    class Meta:
-        model = Medidor
-        fields = ('llaveIdentificadora', 'nombre', 'consumoTotal')
-'''
 class MedidorSerializer(serializers.Serializer):
     llaveIdentificadora = serializers.CharField()
     nombre = serializers.CharField()
 
+    def validate(self, data):
+        try:
+            Medidor.objects.get(llaveIdentificadora = data.get('llaveIdentificadora'))
+        except:
+            pass
+        else:
+            raise serializers.ValidationError("Esa llave ya esta utilizada!")
+        return data
+        
+
     def create(self, validated_data):
-        return Medidor.objects.create(**validated_data)
-    
-    def update(self, instance, validated_data):
-        instance.llaveIdentificadora = validated_data.get('llaveIdentificadora', instance.llaveIdentificadora)
-        instance.nombre = validated_data.get('nombre', instance.nombre)
-        instance.save()
-        return instance
+        medidor = Medidor(
+        llaveIdentificadora = validated_data.pop('llaveIdentificadora'),
+        nombre = validated_data.pop('nombre'),
+        )
+        medidor.save()
+        return medidor
 
 
 class MedicionSerializer(serializers.Serializer):
     fechaYHora = serializers.DateTimeField()
     consumo = serializers.FloatField()
-    unidad = Unidades.KW
+    unidad = serializers.CharField(required = False)
     medidor = serializers.CharField()
 
     def validate(self, data):
         if(data.get('consumo')<0):
             raise serializers.ValidationError("Consumo menor a 0!")
+        if(data.get('unidad')!='kwh' and data.get('unidad')):
+            raise serializers.ValidationError("La unidad debe ser kwh!")
+        try:
+            Medidor.objects.get(llaveIdentificadora= data.get('medidor'))
+        except:
+            raise serializers.ValidationError("No existe ese medidor!")
+        
         return data
 
     def create(self, validated_data):
         medicion = Medicion(
-        medidor = Medidor.objects.get(nombre = validated_data.pop('medidor')),  
+        medidor = Medidor.objects.get(llaveIdentificadora = validated_data.pop('medidor')),  
         fechaYHora = validated_data.pop('fechaYHora'),
         consumo = validated_data.pop('consumo'),
         )
@@ -51,16 +52,18 @@ class MedicionSerializer(serializers.Serializer):
         return medicion
     
 
+    
+
 
 
 class MedicionTotalSerializer(serializers.Serializer):
     llaveIdentificadora = serializers.CharField()
     nombreMedidor = serializers.CharField()
-    unidad = Unidades.KW.name
+    unidad = serializers.CharField()
     consumoTotal = serializers.FloatField()
 
 class MedicionPromedioSerializer(serializers.Serializer):
     llaveIdentificadora = serializers.CharField()
     nombreMedidor = serializers.CharField()
-    unidad = Unidades.KW.name
+    unidad = serializers.CharField()
     consumoPromedio = serializers.FloatField()
