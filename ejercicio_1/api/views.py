@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework import serializers
 
 from .serializers import MedidorSerializer, MedicionSerializer,  MedicionTotalSerializer, MedicionPromedioSerializer
 from .models import Medidor, Medicion, Unidades
@@ -26,6 +27,12 @@ class minimoConsumoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, llave=None):
         llave = self.kwargs.get('llave', None)
+        try:
+            Medidor.objects.get(llaveIdentificadora= llave)
+        except:
+            raise serializers.ValidationError("No existe ese medidor!")
+        if(not Medicion.objects.filter(medidor__llaveIdentificadora = llave)):
+            raise serializers.ValidationError("Ese medidor no tiene mediciones")
         queryset = [Medicion.objects.filter(medidor__llaveIdentificadora = llave).order_by('consumo').first()]
         print(type(queryset))
         return queryset
@@ -38,6 +45,12 @@ class maximoConsumoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, llave=None):
         llave = self.kwargs.get('llave', None)
+        try:
+            Medidor.objects.get(llaveIdentificadora= llave)
+        except:
+            raise serializers.ValidationError("No existe ese medidor!")
+        if(not Medicion.objects.filter(medidor__llaveIdentificadora = llave)):
+            raise serializers.ValidationError("Ese medidor no tiene mediciones")
         queryset = [Medicion.objects.filter(medidor__llaveIdentificadora = llave).order_by('consumo').reverse().first()]
         print(type(queryset))
         return queryset
@@ -48,13 +61,14 @@ class consumoTotalViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
     def get_queryset(self, llave=None):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         llave = self.kwargs.get('llave', None)
+        try:
+            Medidor.objects.get(llaveIdentificadora= llave)
+        except:
+            raise serializers.ValidationError("No existe ese medidor!")
         medidor = Medidor.objects.get(llaveIdentificadora = llave)
-
+        if(not Medicion.objects.filter(medidor__llaveIdentificadora = llave)):
+            raise serializers.ValidationError("Ese medidor no tiene mediciones")
         resultados = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Sum('consumo'))
         return [{
                 'consumoTotal' : resultados.get('consumoTotal'),
@@ -70,7 +84,13 @@ class consumoPromedioViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, llave=None):
         llave = self.kwargs.get('llave', None)
+        try:
+            Medidor.objects.get(llaveIdentificadora= llave)
+        except:
+            raise serializers.ValidationError("No existe ese medidor!")
         medidor = Medidor.objects.get(llaveIdentificadora = llave)
+        if(not Medicion.objects.filter(medidor__llaveIdentificadora = llave)):
+            raise serializers.ValidationError("Ese medidor no tiene mediciones")
         resultados = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoPromedio = Avg('consumo'))
         return [{
                 'consumoPromedio' : resultados.get('consumoPromedio'),
