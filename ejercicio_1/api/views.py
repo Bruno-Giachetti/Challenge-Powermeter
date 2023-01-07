@@ -49,9 +49,15 @@ class consumoTotalViewSet(viewsets.ModelViewSet):
         the user as determined by the username portion of the URL.
         """
         llave = self.kwargs.get('llave', None)
-        queryset1 = [Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Sum('consumo'))]
-        queryset2 = Medidor.objects.filter(llaveIdentificadora = llave)
-        return queryset1
+        medidor = Medidor.objects.get(llaveIdentificadora = llave)
+        if(medidor.consumoTotal):
+            return [{
+                'consumoTotal': medidor.consumoTotal
+            }]
+        queryset1 = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Sum('consumo'))
+        medidor.consumoTotal = queryset1.get('consumoTotal')
+        medidor.save()
+        return [queryset1]
     
 class consumoPromedioViewSet(viewsets.ModelViewSet):
     queryset = Medidor.objects.all()

@@ -33,11 +33,11 @@ class MedidorSerializer(serializers.Serializer):
 class MedicionSerializer(serializers.Serializer):
     fechaYHora = serializers.DateTimeField()
     consumo = serializers.FloatField()
-    medidor = MedidorSerializer()
+    medidor = serializers.CharField()
 
     def create(self, validated_data):
         medicion = Medicion(
-        medidor = Medidor.objects.get(llaveIdentificadora = validated_data.pop('medidor')['llaveIdentificadora']),  
+        medidor = Medidor.objects.get(nombre = validated_data.pop('medidor')),  
         fechaYHora = validated_data.pop('fechaYHora'),
         consumo = validated_data.pop('consumo'),
         )
