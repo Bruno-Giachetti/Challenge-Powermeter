@@ -9,6 +9,7 @@ class Medidor(models.Model):
         blank=False,
         max_length=64
     )
+    consumoTotal = models.FloatField(None)
 
     def __str__(self):
         return self.nombre
@@ -20,7 +21,7 @@ class Medicion(models.Model):
 
 
     def __str__(self):
-        return self.consumo
+        return str(self.consumo)
 
 class MedicionTotal:
     consumoTotal : models.FloatField()
