@@ -63,5 +63,4 @@ unidades para que en un futuro haya un desplegable para elegir unidades si hicie
 
 -No se pueden agregar mediciones negativas.
 
--No se pueden utilizar medidores inexistentes o sin mediciones para calcular el consumo promedio o total, ni tampoco se puede listar el minimo consumo de un medidor sin mediciones.
-
+-No se pueden utilizar medidores inexistentes o sin mediciones para calcular el consumo promedio, ni el consumo total, ni el minimo o maximo consumo
