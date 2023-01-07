@@ -54,8 +54,11 @@ Ejemplo de URL: http://localhost:8000/consumoPromedio/A1/
 Consideraciones:
 -No se pueden agregar medidores con la misma llave, en la base de datos esto ya esta controlado por ser Primary Key, pero ademas
 hay una validacion a la hora de crear el medidor
+
 -No se pueden agregar mediciones a medidores que no existen
+
 -La unidad de kwh esta seteada y no se puede elegir otra, de todos modos si hubiera que agregar mas unidades hay un enum de 
 unidades para que en un futuro haya un desplegable para elegir unidades si hiciera falta
+
 -No se pueden agregar mediciones negativas.
 
