@@ -5,46 +5,46 @@ Prueba tecnica realizada para la empresa Powermeter.
 Ejercicio 1:
 
 Endpoints:
-http://localhost:8000/medidores/
+- http://localhost:8000/medidores/
 
 Sirve para crear los medidores con la llave y el nombre del medidor con metodo POST.
 Tambien se pueden listar todos los medidores con el metodo GET.
-Json de ejemplo:
+Json de ejemplo para el body:
 {
         "llaveIdentificadora": "A1",
         "nombre": "Medidor 1"
 }
 
-http://localhost:8000/mediciones/
+- http://localhost:8000/mediciones/
 
 Sirve para crear las mediciones indicando fecha y hora (datetime), consumo y medidor con metodo POST.
 Tambien se pueden listar todas las mediciones con el metodo GET.
-Json de ejemplo:
+Json de ejemplo para el body:
 {
         "fechaYHora": "2023-01-05T23:53:40Z",
         "consumo": 900.3,
         "medidor": "A1"
 }
 
-http://localhost:8000/maximoConsumo/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/maximoConsumo/(Aca se escribe la llave del medidor que se requiere)/
 
 Sirve para recibir la medicion con el maximo consumo del medidor ingresado por llave en la URL.
 
 Ejemplo de URL: http://localhost:8000/maximoConsumo/A1/
 
-http://localhost:8000/minimoConsumo/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/minimoConsumo/(Aca se escribe la llave del medidor que se requiere)/
 
 Sirve para recibir la medicion con el minimo consumo del medidor ingresado por llave en la URL.
 
 Ejemplo de URL: http://localhost:8000/minimoConsumo/A1/
 
-http://localhost:8000/consumoTotal/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/consumoTotal/(Aca se escribe la llave del medidor que se requiere)/
 
 Sirve para recibir el consumo total del medidor ingresado por llave en la URL.
 
 Ejemplo de URL: http://localhost:8000/consumoTotal/A1/
 
-http://localhost:8000/consumoPromedio/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/consumoPromedio/(Aca se escribe la llave del medidor que se requiere)/
 
 Sirve para recibir el consumo promedio del medidor ingresado por llave en la URL.
 
