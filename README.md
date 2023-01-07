@@ -2,7 +2,7 @@
 
 Prueba tecnica realizada para la empresa Powermeter.
 
-Ejercicio 1:
+**Ejercicio 1:**
 
 Endpoints:
 - http://localhost:8000/medidores/
