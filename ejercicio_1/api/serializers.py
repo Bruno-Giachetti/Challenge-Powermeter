@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Medidor, Medicion, MedicionTotal
+from .models import Medidor, Medicion, Unidades
 
 '''
 class MedidorSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,7 +33,13 @@ class MedidorSerializer(serializers.Serializer):
 class MedicionSerializer(serializers.Serializer):
     fechaYHora = serializers.DateTimeField()
     consumo = serializers.FloatField()
+    unidad = Unidades.KW
     medidor = serializers.CharField()
+
+    def validate(self, data):
+        if(data.get('consumo')<0):
+            raise serializers.ValidationError("Consumo menor a 0!")
+        return data
 
     def create(self, validated_data):
         medicion = Medicion(
@@ -43,17 +49,18 @@ class MedicionSerializer(serializers.Serializer):
         )
         medicion.save()
         return medicion
-
-class MedicionSerializerMaxMin(serializers.Serializer):
-    fechaYHora = serializers.DateTimeField()
-    consumo = serializers.FloatField()
-    medidor = MedidorSerializer()
     
 
 
 
 class MedicionTotalSerializer(serializers.Serializer):
+    llaveIdentificadora = serializers.CharField()
+    nombreMedidor = serializers.CharField()
+    unidad = Unidades.KW.name
     consumoTotal = serializers.FloatField()
 
 class MedicionPromedioSerializer(serializers.Serializer):
-    consumoTotal = serializers.FloatField()
+    llaveIdentificadora = serializers.CharField()
+    nombreMedidor = serializers.CharField()
+    unidad = Unidades.KW.name
+    consumoPromedio = serializers.FloatField()

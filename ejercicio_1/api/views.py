@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import generics
 
-from .serializers import MedidorSerializer, MedicionSerializer, MedicionTotalSerializer, MedicionSerializerMaxMin, MedicionPromedioSerializer
+from .serializers import MedidorSerializer, MedicionSerializer, MedicionTotalSerializer, MedicionPromedioSerializer
 from .models import Medidor, Medicion
 
 
@@ -21,7 +21,8 @@ class MedicionViewSet(viewsets.ModelViewSet):
 
 class minimoConsumoViewSet(viewsets.ModelViewSet):
     queryset = Medicion.objects.all()
-    serializer_class = MedicionSerializerMaxMin
+    serializer_class = MedicionSerializer
+    http_method_names = ['get']
 
     def get_queryset(self, llave=None):
         llave = self.kwargs.get('llave', None)
@@ -29,9 +30,11 @@ class minimoConsumoViewSet(viewsets.ModelViewSet):
         print(type(queryset))
         return queryset
 
+
 class maximoConsumoViewSet(viewsets.ModelViewSet):
     queryset = Medicion.objects.all()
-    serializer_class = MedicionSerializerMaxMin
+    serializer_class = MedicionSerializer
+    http_method_names = ['get']
 
     def get_queryset(self, llave=None):
         llave = self.kwargs.get('llave', None)
@@ -42,6 +45,7 @@ class maximoConsumoViewSet(viewsets.ModelViewSet):
 class consumoTotalViewSet(viewsets.ModelViewSet):
     queryset = Medidor.objects.all()
     serializer_class = MedicionTotalSerializer
+    http_method_names = ['get']
 
     def get_queryset(self, llave=None):
         """
@@ -50,27 +54,27 @@ class consumoTotalViewSet(viewsets.ModelViewSet):
         """
         llave = self.kwargs.get('llave', None)
         medidor = Medidor.objects.get(llaveIdentificadora = llave)
-        if(medidor.consumoTotal):
-            return [{
-                'consumoTotal': medidor.consumoTotal
-            }]
-        queryset1 = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Sum('consumo'))
-        medidor.consumoTotal = queryset1.get('consumoTotal')
-        medidor.save()
-        return [queryset1]
+
+        resultados = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Sum('consumo'))
+        return [{
+                'consumoTotal' : resultados.get('consumoTotal'),
+                'nombreMedidor' : medidor.nombre,
+                'llaveIdentificadora' : medidor.llaveIdentificadora,
+        }]
     
 class consumoPromedioViewSet(viewsets.ModelViewSet):
     queryset = Medidor.objects.all()
     serializer_class = MedicionPromedioSerializer
+    http_method_names = ['get']
 
     def get_queryset(self, llave=None):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         llave = self.kwargs.get('llave', None)
-        queryset1 = [Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoTotal = Avg('consumo'))]
-        queryset2 = Medidor.objects.filter(llaveIdentificadora = llave)
-        return queryset1
+        medidor = Medidor.objects.get(llaveIdentificadora = llave)
+        resultados = Medicion.objects.filter(medidor__llaveIdentificadora = llave).aggregate(consumoPromedio = Avg('consumo'))
+        return [{
+                'consumoPromedio' : resultados.get('consumoPromedio'),
+                'nombreMedidor' : medidor.nombre,
+                'llaveIdentificadora' : medidor.llaveIdentificadora,
+        }]
     
     

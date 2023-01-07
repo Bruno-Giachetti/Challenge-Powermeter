@@ -1,15 +1,14 @@
 from django.db import models
 from dataclasses import dataclass
+from enum import Enum
+
+class Unidades(Enum):
+    KW = 1
 
 class Medidor(models.Model):
 
     llaveIdentificadora = models.CharField(max_length=64, primary_key=True, null= False)
-    nombre = models.CharField(
-        null=False,
-        blank=False,
-        max_length=64
-    )
-    consumoTotal = models.FloatField(None)
+    nombre = models.CharField(max_length=64)
 
     def __str__(self):
         return self.nombre
