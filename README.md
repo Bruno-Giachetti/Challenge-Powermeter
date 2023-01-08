@@ -80,3 +80,13 @@ unidades para que en un futuro haya un desplegable para elegir unidades si hicie
 -No se pueden agregar mediciones negativas.
 
 -No se pueden utilizar medidores inexistentes o sin mediciones para calcular el consumo promedio, ni el consumo total, ni el minimo o maximo consumo
+
+**Cuestiones de diseño**
+
+-La llave identificadora de los medidores la considero Primary Key de la tabla medidores, por el contexto del ejercicio.
+
+-En el modelo de datos la Foreign Key que relaciona medicion con medidor necesariamente tiene que ir del lado de medicion, diseñé el dominio siendo
+fiel a esta restricción.
+
+-Tanto el consumo total como el promedio seria prudente guardarlos como campos en el medidor, esto es porque son calculos que pueden ser muy demandantes
+en recursos si hay muchas mediciones en el medidor. Este modelo es simplificado y solo busca resolver los puntos mencionados, pero ayudaria a la performance este cambio propuesto.
