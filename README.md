@@ -2,7 +2,23 @@
 
 Prueba tecnica realizada para la empresa Powermeter.
 
+**Ejercicio 2:**
+Correr el archivo Ejercicio 2.py
+
 **Ejercicio 1:**
+
+Para correr la api:
+
+-Con Docker: abrir la terminal adentro del directorio Challenge-Powermeter y escribir docker-compose up
+
+
+-Sin Docker: abrir la terminar adentro del directorio Challenge-Powermeter y correr los siguientes comandos:
+1- source ./ejercicio-1-venv/bin/activate
+2- cd ejercicio_1
+3- pip install -r requirements.txt
+4- python manage.py migrate
+5- python manage.py runserver
+
 
 Endpoints:
 - http://localhost:8000/medidores/
