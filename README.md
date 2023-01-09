@@ -19,6 +19,7 @@ Para correr la api:
 4- python manage.py migrate
 5- python manage.py runserver
 
+URL Documentacion Swagger: http://localhost:8000/docs/
 
 Endpoints:
 - http://localhost:8000/medidores/
@@ -42,29 +43,29 @@ Json de ejemplo para el body:
         "medidor": "A1"
 }
 
-- http://localhost:8000/maximoConsumo/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/medidores/(Aca se escribe la llave del medidor que se requiere)/maximoConsumo/
 
 Sirve para recibir la medicion con el maximo consumo del medidor ingresado por llave en la URL.
 
-Ejemplo de URL: http://localhost:8000/maximoConsumo/A1/
+Ejemplo de URL: http://localhost:8000/medidores/A1/maximoConsumo/
 
-- http://localhost:8000/minimoConsumo/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/medidores/(Aca se escribe la llave del medidor que se requiere)/minimoConsumo/
 
 Sirve para recibir la medicion con el minimo consumo del medidor ingresado por llave en la URL.
 
-Ejemplo de URL: http://localhost:8000/minimoConsumo/A1/
+Ejemplo de URL: http://localhost:8000/medidores/A1/minimoConsumo/
 
-- http://localhost:8000/consumoTotal/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/medidores/(Aca se escribe la llave del medidor que se requiere)/consumoTotal/
 
 Sirve para recibir el consumo total del medidor ingresado por llave en la URL.
 
-Ejemplo de URL: http://localhost:8000/consumoTotal/A1/
+Ejemplo de URL: http://localhost:8000/medidores/A1/consumoTotal/
 
-- http://localhost:8000/consumoPromedio/(Aca se escribe la llave del medidor que se requiere)/
+- http://localhost:8000/medidores/(Aca se escribe la llave del medidor que se requiere)/consumoPromedio/
 
 Sirve para recibir el consumo promedio del medidor ingresado por llave en la URL.
 
-Ejemplo de URL: http://localhost:8000/consumoPromedio/A1/
+Ejemplo de URL: http://localhost:8000/medidores/A1/consumoPromedio/
 
 
 **Consideraciones:**
