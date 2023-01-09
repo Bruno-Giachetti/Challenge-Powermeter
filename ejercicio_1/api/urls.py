@@ -3,12 +3,8 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'medidores', views.MedidorViewSet)
-router.register(r'mediciones', views.MedicionViewSet)
-router.register(r'minimoConsumo/(?P<llave>.*)',  views.minimoConsumoViewSet)
-router.register(r'maximoConsumo/(?P<llave>.*)',  views.maximoConsumoViewSet)
-router.register(r'consumoTotal/(?P<llave>.*)',  views.consumoTotalViewSet)
-router.register(r'consumoPromedio/(?P<llave>.*)',  views.consumoPromedioViewSet)
+router.register(r'medidores', views.MedidorViewSet, basename='medidor')
+router.register(r'mediciones', views.MedicionViewSet,  basename='medicion')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
