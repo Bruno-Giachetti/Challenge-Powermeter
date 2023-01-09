@@ -78,6 +78,9 @@ hay una validacion a la hora de crear el medidor
 -La unidad de kwh esta seteada y no se puede elegir otra, de todos modos si hubiera que agregar mas unidades hay un enum de 
 unidades para que en un futuro haya un desplegable para elegir unidades si hiciera falta
 
+-El campo Unidad cuando se crea una medicion es opcional, si no se lo llena automaticamente se usa kwh y si se ingresa una unidad incorrecta, no se
+podra crear la medicion. En este caso la unica unidad aceptable es kwh.
+
 -No se pueden agregar mediciones negativas.
 
 -No se pueden utilizar medidores inexistentes o sin mediciones para calcular el consumo promedio, ni el consumo total, ni el minimo o maximo consumo
