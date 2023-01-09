@@ -15,6 +15,7 @@ class MedidorViewSet(viewsets.ModelViewSet):
     queryset = Medidor.objects.all()
     serializer_class = MedidorSerializer
 
+
     @action(detail=True, methods=['get'])
     def maximoConsumo(self, request, pk = None):
         llave = self.kwargs.get('pk', None)

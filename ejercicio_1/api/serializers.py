@@ -50,11 +50,6 @@ class MedicionSerializer(serializers.Serializer):
         )
         medicion.save()
         return medicion
-    
-
-    
-
-
 
 class MedicionTotalSerializer(serializers.Serializer):
     llaveIdentificadora = serializers.CharField()
